@@ -16,6 +16,8 @@ In this game the goal is simple, get the hero character to move across the gray 
 #### Movement and Controls
 Users move the hero character by using the main up/right/left/down arrow keys on their keyboard.
 
+Frogger Game : [Getting Started] (https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/edit#heading=h.vw2zfydjsvfi  "Frogger Game Getting Started")
+
 ## Links to GitHub Repository (Master Branch)
 * GitHub Project Repository: [https://github.com/extwiii/U-OOJS-game/](https://github.com/extwiii/U-OOJS-game// "GitHub project repository")
 * GitHub Pages Demo: [https://extwiii.github.io/U-OOJS-game/.](https://extwiii.github.io/U-OOJS-game/ "GitHub Pages demo")
