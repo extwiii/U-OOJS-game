@@ -1,16 +1,30 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(y,speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
+    this.y = y;
+    this.x = -101;
+    this.speed = speed;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 };
 
+
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
+
+    this.x += dt * this.speed;
+
+     if (this.x >= 505){
+        this.x = 0;
+        this.speed = 100 + Math.floor(Math.random() * 150 + 1); 
+     } 
+        
+ 
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -26,15 +40,65 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function(){
-
+    this.reset();
+    this.score = 0;
+    this.player = 'images/char-boy.png';
 }
 
-Player.prototype.update = function(){
+Player.prototype.reset = function(){
+    this.x = 200;
+    this.y = 405;
+}
 
+
+Player.prototype.update = function(){
+    if (this.x < 0) 
+        this.x = 0;
+    if (this.x > 400) 
+        this.x = 400;
+    if (this.y < 0) {
+        this.reset();
+        this.score ++;
+        console.log(this.score);}   
+    if (this.y > 405) 
+        this.y = 405;
+
+    this.checkCollisions();
 }
 
 Player.prototype.render = function(){
 
+    ctx.drawImage(Resources.get(this.player), this.x, this.y);
+    ctx.font = "30px Arial";
+    ctx.clearRect(400, 0, 105, 50);
+    if(this.score < 0)
+        this.score = 0;
+    ctx.fillText("Score " + this.score,400, 45);
+       
+}
+
+Player.prototype.handleInput = function(keycode) {
+        if(keycode == "left")
+        this.x -= 100;
+        if(keycode == "up")
+        this.y -= 83;
+        if(keycode == "right")
+        this.x += 100;
+        if(keycode == "down")
+        this.y += 83;
+}
+
+Player.prototype.checkCollisions = function(){
+    for (var i = 0; i < allEnemies.length; i++) {
+        if (this.x < allEnemies[i].x + 70 && 
+            this.x + 70 > allEnemies[i].x && 
+            this.y < allEnemies[i].y + 30 && 
+            this.y + 30 > allEnemies[i].y) {
+            this.reset();
+            this.score--;
+            break;
+        }
+    }
 }
 
 
@@ -42,12 +106,11 @@ Player.prototype.render = function(){
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var enemy1 = new Enemy();
-var enemy2 = new Enemy();
-var enemy3 = new Enemy();
+var enemy1 = new Enemy(63,(100 + Math.floor(Math.random() * 150 + 1)));
+var enemy2 = new Enemy(145,(100 + Math.floor(Math.random() * 150 + 1)));
+var enemy3 = new Enemy(227,(100 + Math.floor(Math.random() * 150 + 1)));
 var allEnemies = [enemy1,enemy2,enemy3];
 var player = new Player();
-
 
 
 // This listens for key presses and sends the keys to your
@@ -62,3 +125,5 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
